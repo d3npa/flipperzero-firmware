@@ -91,12 +91,13 @@ typedef struct {
 static FuriHalVersion furi_hal_version = {0};
 
 static void furi_hal_version_set_name(const char* name) {
+    name = "Flopper Zuwu";
     if(name != NULL) {
         strlcpy(furi_hal_version.name, name, FURI_HAL_VERSION_ARRAY_NAME_LENGTH);
         snprintf(
             furi_hal_version.device_name,
             FURI_HAL_VERSION_DEVICE_NAME_LENGTH,
-            "xFlipper %s",
+            "x%s",
             furi_hal_version.name);
     } else {
         strlcpy(furi_hal_version.device_name, "xFlipper", FURI_HAL_VERSION_DEVICE_NAME_LENGTH);
@@ -107,11 +108,11 @@ static void furi_hal_version_set_name(const char* name) {
     // BLE Mac address
     uint32_t udn = LL_FLASH_GetUDN();
     uint32_t company_id = LL_FLASH_GetSTCompanyID();
-    uint32_t device_id = LL_FLASH_GetDeviceID();
+    // uint32_t device_id = LL_FLASH_GetDeviceID();
     furi_hal_version.ble_mac[0] = (uint8_t)(udn & 0x000000FF);
     furi_hal_version.ble_mac[1] = (uint8_t)((udn & 0x0000FF00) >> 8);
     furi_hal_version.ble_mac[2] = (uint8_t)((udn & 0x00FF0000) >> 16);
-    furi_hal_version.ble_mac[3] = (uint8_t)device_id;
+    furi_hal_version.ble_mac[3] = 0x26; //(uint8_t)device_id;
     furi_hal_version.ble_mac[4] = (uint8_t)(company_id & 0x000000FF);
     furi_hal_version.ble_mac[5] = (uint8_t)((company_id & 0x0000FF00) >> 8);
 }
@@ -231,7 +232,7 @@ uint8_t furi_hal_version_get_hw_body(void) {
 }
 
 FuriHalVersionColor furi_hal_version_get_hw_color(void) {
-    return furi_hal_version.board_color;
+    return 1; //furi_hal_version.board_color;
 }
 
 uint8_t furi_hal_version_get_hw_connect(void) {
